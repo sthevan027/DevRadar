@@ -1,11 +1,11 @@
 # Carrega o analyzer (Pester 5 pode separar discovery/run; use BeforeAll)
-$analyzerPath = Join-Path (Split-Path $PSScriptRoot -Parent) "src\analyzer.ps1"
+$script:analyzerPath = Join-Path (Split-Path $PSScriptRoot -Parent) "src\analyzer.ps1"
+
+BeforeAll {
+    . $script:analyzerPath
+}
 
 Describe "Get-AggregatedMetrics" {
-    BeforeAll {
-        . $analyzerPath
-    }
-
     It "calcula total de repos, stars e forks corretamente" {
         $user = [PSCustomObject]@{ login = "test" }
         $repos = @(
@@ -73,10 +73,6 @@ Describe "Get-AggregatedMetrics" {
 }
 
 Describe "Get-TableFromRows" {
-    BeforeAll {
-        . $analyzerPath
-    }
-
     It "gera HTML de tabela corretamente" {
         $headers = @("Col1", "Col2")
         $rows = @("| A | 1 |", "| B | 2 |")
@@ -89,10 +85,6 @@ Describe "Get-TableFromRows" {
 }
 
 Describe "Resolve-ReportPath" {
-    BeforeAll {
-        . $analyzerPath
-    }
-
     It "retorna OutputPath quando fornecido" {
         $path = Resolve-ReportPath -Username "test" -OutputPath "C:\custom\report.html"
         $path | Should -Be "C:\custom\report.html"
@@ -106,10 +98,6 @@ Describe "Resolve-ReportPath" {
 }
 
 Describe "Save-Report" {
-    BeforeAll {
-        . $analyzerPath
-    }
-
     It "cria arquivo e diretório se não existir" {
         $tempDir = Join-Path $env:TEMP "gh-analyzer-test-$(Get-Random)"
         $subDir = Join-Path $tempDir "subdir"
