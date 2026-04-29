@@ -1,6 +1,20 @@
-# Carrega o analyzer (compatível com Pester 3 e 5)
-$analyzerPath = Join-Path (Split-Path $PSScriptRoot -Parent) "src\analyzer.ps1"
-. $analyzerPath
+BeforeAll {
+    # Pester/GitHub Actions podem isolar discovery/run; calcule o path aqui
+    $testFile = $MyInvocation.MyCommand.Path
+    if ([string]::IsNullOrWhiteSpace($testFile)) {
+        $testFile = $PSCommandPath
+    }
+    if ([string]::IsNullOrWhiteSpace($testFile)) {
+        throw "Não foi possível determinar o caminho do arquivo de testes."
+    }
+
+    $testsDir = Split-Path -Parent $testFile
+    $repoRoot = Split-Path -Parent $testsDir
+    $analyzerPath = Join-Path $repoRoot "src\analyzer.ps1"
+
+    $resolved = (Resolve-Path -LiteralPath $analyzerPath).Path
+    . $resolved
+}
 
 Describe "Get-AggregatedMetrics" {
     It "calcula total de repos, stars e forks corretamente" {
