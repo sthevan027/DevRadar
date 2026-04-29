@@ -2,7 +2,11 @@
 $script:analyzerPath = Join-Path (Split-Path $PSScriptRoot -Parent) "src\analyzer.ps1"
 
 BeforeAll {
-    . $script:analyzerPath
+    $resolved = (Resolve-Path -LiteralPath $script:analyzerPath).Path
+    if (-not $resolved) {
+        throw "Falha ao resolver caminho do analyzer.ps1: $script:analyzerPath"
+    }
+    . $resolved
 }
 
 Describe "Get-AggregatedMetrics" {
