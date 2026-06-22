@@ -1,5 +1,9 @@
 # GH Dev Analyzer
 
+![Status](https://img.shields.io/badge/status-estudo%2Fdesafio-blue)
+
+![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?logo=powershell&logoColor=white) ![Pester](https://img.shields.io/badge/Pester-5391FE?logo=powershell&logoColor=white)
+
 CLI que analisa um perfil do GitHub e gera um relatório HTML detalhado.
 
 ## Arquitetura do projeto
