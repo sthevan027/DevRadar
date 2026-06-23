@@ -1,8 +1,16 @@
-# GH Dev Analyzer
+# DevRadar — Análise de perfil do GitHub
 
 ![Status](https://img.shields.io/badge/status-estudo%2Fdesafio-blue)
 
 ![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?logo=powershell&logoColor=white) ![Pester](https://img.shields.io/badge/Pester-5391FE?logo=powershell&logoColor=white)
+
+## 🚀 Evolução: de CLI para produto web de análise de perfil
+
+**De → Para:** de script PowerShell local para aplicativo web que analisa perfis do GitHub.
+
+**Novas funcionalidades:** interface web (colar usuário → relatório com pontos fortes e fracos); recomendações acionáveis de melhoria do perfil; export em PDF e modo premium opcional.
+
+**Mudanças na lógica:** migra de PowerShell/HTML local para Next.js + API do GitHub; a análise vira um serviço cacheável em vez de execução local; camada de insights opcional via IA.
 
 CLI que analisa um perfil do GitHub e gera um relatório HTML detalhado.
 
