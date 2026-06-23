@@ -202,10 +202,6 @@ function New-HtmlReport {
     $topUpdatedTable = Get-TopUpdatedTableHtml -Metrics $Metrics
     $topIssuesTable = Get-TopIssuesTableHtml -Metrics $Metrics
 
-    $privateCount = if ($User.PSObject.Properties['total_private_repos']) { $User.total_private_repos } else { "-" }
-    $bio = if ($User.bio) { [System.Web.HttpUtility]::HtmlEncode($User.bio -replace "`n", " / ") } else { "-" }
-    $userName = if ($User.name) { [System.Web.HttpUtility]::HtmlEncode($User.name) } else { "-" }
-
     $html = @"
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -235,37 +231,37 @@ function New-HtmlReport {
 </head>
 <body>
     <div class="container">
-        <h1>Relatório GitHub — @$Username</h1>
+        <h1>Relat&oacute;rio GitHub &mdash; @$Username</h1>
         <p class="subtitle">Gerado em $dateStr | GH Dev Analyzer</p>
 
         <h2>1. Perfil</h2>
         $profileTable
 
-        <h2>2. Métricas gerais</h2>
+        <h2>2. M&eacute;tricas gerais</h2>
         $generalTable
 
-        <h2>3. Todos os repositórios ($($Metrics.TotalRepos))</h2>
+        <h2>3. Todos os reposit&oacute;rios ($($Metrics.TotalRepos))</h2>
         $reposTable
 
         <h2>4. Por linguagem</h2>
         $langTable
 
-        <h2>5. Por ano de criação</h2>
+        <h2>5. Por ano de cria&ccedil;&atilde;o</h2>
         $yearTable
 
         <h2>6. Topics (Top 15)</h2>
         $topicsTable
 
-        <h2>7. Top repositórios (estrelas)</h2>
+        <h2>7. Top reposit&oacute;rios (estrelas)</h2>
         $topStarsTable
 
-        <h2>8. Repositórios mais atualizados</h2>
+        <h2>8. Reposit&oacute;rios mais atualizados</h2>
         $topUpdatedTable
 
-        <h2>9. Repositórios com mais issues</h2>
+        <h2>9. Reposit&oacute;rios com mais issues</h2>
         $topIssuesTable
 
-        <p class="footer">Relatório gerado pelo GH Dev Analyzer</p>
+        <p class="footer">Relat&oacute;rio gerado pelo GH Dev Analyzer</p>
     </div>
 </body>
 </html>
@@ -286,7 +282,7 @@ function Get-ProfileTableHtml {
         "| Nome | $userName |",
         "| Login | $($User.login) |",
         "| Bio | $bio |",
-        "| Repos públicos | $($Metrics.PublicRepos) |",
+        "| Repos p&uacute;blicos | $($Metrics.PublicRepos) |",
         "| Repos privados | $privateCount |",
         "| Seguidores | $($User.followers) |",
         "| Seguindo | $($User.following) |",
@@ -299,15 +295,15 @@ function Get-ProfileTableHtml {
 function Get-GeneralMetricsTableHtml {
     param($Metrics)
     $rows = @(
-        "| Repositórios | $($Metrics.TotalRepos) |",
+        "| Reposit&oacute;rios | $($Metrics.TotalRepos) |",
         "| Estrelas | $($Metrics.TotalStars) |",
         "| Forks | $($Metrics.TotalForks) |",
         "| Issues abertas | $($Metrics.TotalIssues) |",
-        "| Média estrelas/repo | $($Metrics.AvgStars) |",
+        "| M&eacute;dia estrelas/repo | $($Metrics.AvgStars) |",
         "| Repos arquivados | $($Metrics.ArchivedRepos) |",
         "| Repos fork | $($Metrics.ForkRepos) |"
     )
-    return Get-TableFromRows -Headers @("Métrica", "Valor") -Rows $rows
+    return Get-TableFromRows -Headers @("M&eacute;trica", "Valor") -Rows $rows
 }
 
 function Get-TableFromRows {
@@ -326,10 +322,10 @@ function Get-TableFromRows {
 
 function Get-AllReposTableHtml {
     param($Repos)
-    $thead = "<thead><tr><th>#</th><th>Repositório</th><th>Visibilidade</th><th>⭐</th><th>Forks</th><th>Lang</th><th>Issues</th><th>Branch</th></tr></thead><tbody>"
+    $thead = "<thead><tr><th>#</th><th>Reposit&oacute;rio</th><th>Visibilidade</th><th>&#11088;</th><th>Forks</th><th>Lang</th><th>Issues</th><th>Branch</th></tr></thead><tbody>"
     $i = 1
     foreach ($r in $Repos) {
-        $vis = if ($r.private) { '<span class="badge badge-private">privado</span>' } else { '<span class="badge badge-public">público</span>' }
+        $vis = if ($r.private) { '<span class="badge badge-private">privado</span>' } else { '<span class="badge badge-public">p&uacute;blico</span>' }
         $lang = if ($r.language) { $r.language } else { "-" }
         $url = "https://github.com/$($r.full_name)"
         $thead += "<tr><td>$i</td><td><a href='$url' target='_blank' rel='noopener noreferrer'>$($r.name)</a></td><td>$vis</td><td>$($r.stargazers_count)</td><td>$($r.forks_count)</td><td>$lang</td><td>$($r.open_issues_count)</td><td>$($r.default_branch)</td></tr>"
@@ -385,7 +381,7 @@ function Get-TopUpdatedTableHtml {
 function Get-TopIssuesTableHtml {
     param($Metrics)
     if (-not $Metrics.TopIssues -or $Metrics.TopIssues.Count -eq 0) {
-        return "<p>Nenhum repositório com issues abertas.</p>"
+        return "<p>Nenhum reposit&oacute;rio com issues abertas.</p>"
     }
     return Get-SimpleReposTable -Repos $Metrics.TopIssues -Col1 "Repo" -Col2 "Issues" -Prop2 "open_issues_count"
 }
