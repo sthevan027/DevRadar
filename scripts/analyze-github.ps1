@@ -1,4 +1,4 @@
-# GH Dev Analyzer - Script principal
+﻿# GH Dev Analyzer - Script principal
 # Analisa perfil do GitHub e gera relatório HTML
 
 param(

@@ -1,4 +1,4 @@
-# ==========================================
+﻿# ==========================================
 # GH Dev Analyzer - Módulo de análise GitHub
 # Autor: Sthevan Santos
 # Princípios: SOLID
